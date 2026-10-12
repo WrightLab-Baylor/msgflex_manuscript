@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 
-df = pd.read_csv("/home/trelangi/Desktop/Metaproteomics_data_II/pdata/PXD017035/metrics_comparison.tsv", sep="\t")
+df = pd.read_csv("metrics_comparison.tsv", sep="\t")
 
 # Convert runtime columns from seconds to minutes
 for col in ["auto_task", "numa_opt", "auto_task_bin", "numa_opt_bin"]:
