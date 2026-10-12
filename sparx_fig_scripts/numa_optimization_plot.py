@@ -19,7 +19,9 @@ PAIRS = [
 ]
 
 def paired_stats(a, b):
-    """Wilcoxon signed-rank (primary) + paired t-test (secondary) + effect size."""
+    """
+    Wilcoxon signed-rank (primary) + paired t-test (secondary) + effect size.
+    """
     w_stat, w_p = stats.wilcoxon(df[a], df[b])
     t_stat, t_p = stats.ttest_rel(df[a], df[b])
     diff = df[a] - df[b]
