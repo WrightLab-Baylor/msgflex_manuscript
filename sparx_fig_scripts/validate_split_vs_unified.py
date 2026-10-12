@@ -21,7 +21,6 @@ MASIC_COLS = [
 ]
 
 # Common suffixes appended by proteomics search pipelines that should be stripped
-# when matching files across directories
 SEARCH_SUFFIXES = [
     "_fht_PlusSICStats",
     "_fht",
@@ -471,7 +470,7 @@ def plot_quant(all_split, all_unified, all_matched, per_sample,
     plt.close(fig)
 
 # ---------------------------------------------------------------------------
-# Rescoring comparison figure — 4-way comparison
+# Rescoring comparison figure
 # ---------------------------------------------------------------------------
 def plot_rescoring_comparison(split_orig, split_rescored, 
                                uni_orig, uni_rescored,
@@ -685,7 +684,6 @@ def discover_rescored_pairs(split_dir: Path, unified_dir: Path,
                             split_rescored_dir: Path | None,
                             unified_rescored_dir: Path | None,
                             base_pairs: list[SamplePair]) -> list[RescoredPair]:
-    """Match original pairs with their rescored counterparts."""
 
     split_rescored_files = _collect_files(split_rescored_dir) if split_rescored_dir else {}
     unified_rescored_files = _collect_files(unified_rescored_dir) if unified_rescored_dir else {}
@@ -764,7 +762,6 @@ def run(pairs, out_stem: Path, project_name: str, qval: float):
     return summary, ident_path, quant_path, all_split, all_unified
 
 def run_with_rescoring(rescored_pairs, out_stem: Path, project_name: str, qval: float):
-    """Run full analysis including rescored comparison."""
 
     base_pairs = [SamplePair(p.name, p.split_orig, p.unified_orig) for p in rescored_pairs]
     summary, ident_path, quant_path, all_split_orig, all_uni_orig = \
