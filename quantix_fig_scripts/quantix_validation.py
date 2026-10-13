@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # ---------------------------------------------------------------------------
 # CONFIG
 # ---------------------------------------------------------------------------
-PROTEIN_CROSSTAB_PATH = "rollup_matrix/final_01_wr.tsv"
+PROTEIN_CROSSTAB_PATH = "rollup_matrix/final_01_dwr.tsv"
 PEPTIDE_CROSSTAB_PATH = "rollup_matrix/peptide_crosstab_annotated.tsv" 
 METADATA_PATH = "rollup_matrix/sample_metadata.tsv"
 OUTPUT_DIR = "rollup_validation_output"
