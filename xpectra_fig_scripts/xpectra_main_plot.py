@@ -65,9 +65,8 @@ INPUT_FILES = {
 }
 
 OUTPUT_PDF = BASE_DIR / "xpectra_main_figure.pdf"
-# ----------------------------------------------------------------------
-# 3. Helpers
-# ----------------------------------------------------------------------
+
+# Helpers
 def lighten(hex_color: str, amount: float = 0.55):
     """Blend a hex color toward white."""
     rgb = np.array(
@@ -76,7 +75,6 @@ def lighten(hex_color: str, amount: float = 0.55):
     ) / 255.0
 
     return tuple(rgb + (1.0 - rgb) * amount)
-
 
 def load_level(level):
     """Load and validate one identification-level table."""
@@ -206,7 +204,7 @@ def collect_bottom_limits(data):
 
     return ymin - padding, ymax + padding
 
-# 4. Top row: identification turnover
+# Top row: identification turnover
 def panel_turnover(
     ax,
     df,
@@ -246,7 +244,6 @@ def panel_turnover(
             else:
                 y_labels.append("")
 
-            # y_labels.append(method)
             y += 1.0
 
         if y > block_start:
@@ -389,7 +386,7 @@ def panel_turnover(
             )
 
 
-# 5. Bottom row: net gain
+# Bottom row: net gain
 def panel_net_gain(
     ax,
     df,
@@ -520,11 +517,8 @@ def panel_net_gain(
             borderaxespad=0,
         )
 
-
+# Main figure
 # ----------------------------------------------------------------------
-# 6. Main figure
-# ----------------------------------------------------------------------
-
 def main():
     data = {
         level: load_level(level)
@@ -554,10 +548,7 @@ def main():
     top_letters = ["a)", "b)", "c)"]
     bottom_letters = ["d)", "e)", "f)"]
 
-    # --------------------------------------------------------------
     # Top row
-    # --------------------------------------------------------------
-
     for i, level in enumerate(LEVELS):
         ax = fig.add_subplot(gs[0, i])
 
@@ -572,7 +563,7 @@ def main():
 
         ax.text(
             -0.20 if i == 0 else -0.10,
-            1.06,              # was 1.16 — tighten to reduce top whitespace
+            1.05,              
             top_letters[i],
             transform=ax.transAxes,
             fontsize=10,
@@ -580,11 +571,8 @@ def main():
             va="bottom",
             ha="left",
         )
-
-    # --------------------------------------------------------------
+  
     # Bottom row
-    # --------------------------------------------------------------
-
     for i, level in enumerate(LEVELS):
         ax = fig.add_subplot(gs[1, i])
 
@@ -607,9 +595,7 @@ def main():
             ha="left",
         )
 
-    # --------------------------------------------------------------
     # Shared legends
-    # --------------------------------------------------------------
     method_handles = [
         Patch(
             facecolor=METHOD_COLORS[m],
@@ -645,9 +631,7 @@ def main():
         fontsize=6.3,
     )
 
-    # --------------------------------------------------------------
     # Save
-    # --------------------------------------------------------------
 
     fig.savefig(
         OUTPUT_PDF,
