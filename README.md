@@ -35,6 +35,7 @@ Statistical tests used:
  - paired t-test
 
 `validate_split_vs_unified.py` - Python script used to validate the bias produced by splitting/binning of large metaproteomic databases.
+Associated Figures: __Figure 5__ & __SFig6__.
 
 ## XPECTRA module data-analysis
 
