@@ -1,4 +1,4 @@
-Reanalysis of six public proteomics datasets with the MSGFLEX pipeline (MS-GF+ search, xpectra rescoring). The submission contains result files only; original raw data remain in the source repositories.
+Reanalysis of six public proteomics datasets with the MSGFLEX pipeline (MS-GF+ search, XPECTRA rescoring). The submission contains result files only; original raw data remain in the source repositories.
 
 ## 1. Source datasets
 
