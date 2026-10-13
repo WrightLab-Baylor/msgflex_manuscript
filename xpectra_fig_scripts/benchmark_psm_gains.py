@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-benchmark_psm_gains_2.py
+benchmark_psm_gains.py
 """
 import argparse
 import os
 import re
 from pathlib import Path
-from collections import Counter
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -25,8 +24,8 @@ LABELS = {
     "xpec":  "SPARX + XPECTRA",
 }
 COLORS = {
-    "msgf":  "#888780", "perc":  "#1f77b4", "ms2r":  "#9467bd",
-    "sparx": "#8c564b", "msb":   "#17becf", "xpec":  "#d62728",
+    "msgf": "#888780", "perc": "#1f77b4", "ms2r": "#9467bd",
+    "sparx": "#8c564b", "msb": "#17becf", "xpec": "#d62728",
 }
 TOOL_ORDER = ["msgf", "sparx", "perc", "ms2r", "msb", "xpec"]
 
@@ -92,7 +91,8 @@ def get_col(df, candidates, label):
                    f"Present: {list(df.columns)[:30]}")
 
 def first_token(series):
-    """Vectorized first accession extraction.
+    """
+    Vectorized first accession extraction.
     Handles ; , and whitespace delimiters, plus bracket/quote wrappers.
     """
     s = series.astype(str).str.strip().replace("", np.nan)
@@ -104,7 +104,9 @@ def first_token(series):
     return s.fillna("")
 
 def clean_peptide_series(series):
-    """Vectorized peptide cleaning (avoids millions of slow Python regex calls)."""
+    """
+    Vectorized peptide cleaning (avoids millions of slow Python regex calls).
+    """
     s = series.astype(str).str.strip()
     s = s.str.replace(r'/\d+$', '', regex=True)
     s = s.str.lstrip('_')
@@ -121,7 +123,9 @@ def clean_peptide_series(series):
     return s.str.strip('-_.:| ')
 
 def extract_scan_nums(series):
-    """Fast, vectorized scan number extraction tailored for common MS pipelines."""
+    """
+    Fast, vectorized scan number extraction tailored for common MS pipelines.
+    """
     s = series.astype(str)
     m = s.str.extract(r'msms(\d+)', expand=False)
     m = m.fillna(s.str.extract(r'scan[=:\s](\d+)', flags=re.IGNORECASE, expand=False))
@@ -188,8 +192,10 @@ def compute_pep_qvalue(psm_df, score_col="score", peptide_col="Peptide"):
     return pep_df
 
 def _protein_col(df):
-    """XPECTRA/SPARX use 'parent_protein'; MS-GF+/Percolator/MS2Rescore use
-    'protein'."""
+    """
+    XPECTRA/SPARX use 'parent_protein'; MS-GF+/Percolator/MS2Rescore use
+    'protein'.
+    """
     if "protein" in df.columns:
         return "protein"
     if "parent_protein" in df.columns:
@@ -265,9 +271,9 @@ def load_msgf(msgf_dir, sample, decoy_prefix):
     scan_col = get_col(df, ["Scan", "ScanNum"], "scan")
     pep_col  = get_col(df, ["Peptide", "peptide"], "peptide")
     prot_col = get_col(df, ["Protein", "protein"], "protein")
-    q_col    = get_col(df, ["QValue", "q_value", "qvalue"], "QValue")
-    pq_col   = get_col(df, ["PepQValue", "pep_q_value", "pepqvalue"], "PepQValue")
-    ev_col   = next((c for c in ["MSGFDB_SpecEValue", "SpecEValue"] if c in df.columns), None)
+    q_col = get_col(df, ["QValue", "q_value", "qvalue"], "QValue")
+    pq_col = get_col(df, ["PepQValue", "pep_q_value", "pepqvalue"], "PepQValue")
+    ev_col = next((c for c in ["MSGFDB_SpecEValue", "SpecEValue"] if c in df.columns), None)
     if ev_col:
         df["_rank"] = pd.to_numeric(df[ev_col], errors="coerce").fillna(1.0)
         df = df.sort_values("_rank", kind="stable").drop_duplicates(subset=[scan_col], keep="first")
@@ -295,22 +301,22 @@ def load_sparx(sparx_dir, sample, decoy_prefix):
     scan_col = get_col(df, ["Scan", "ScanNum"], "scan")
     pep_col  = get_col(df, ["Peptide", "peptide"], "peptide")
     prot_col = get_col(df, ["Protein", "protein"], "protein")
-    q_col    = get_col(df, ["QValue", "q_value", "qvalue"], "QValue")
-    pq_col   = get_col(df, ["PepQValue", "pep_q_value", "pepqvalue"], "PepQValue")
-    ev_col   = next((c for c in ["MSGFDB_SpecEValue", "SpecEValue"] if c in df.columns), None)
+    q_col = get_col(df, ["QValue", "q_value", "qvalue"], "QValue")
+    pq_col = get_col(df, ["PepQValue", "pep_q_value", "pepqvalue"], "PepQValue")
+    ev_col = next((c for c in ["MSGFDB_SpecEValue", "SpecEValue"] if c in df.columns), None)
     sort_col = ev_col if ev_col else q_col
     df["_rank"] = pd.to_numeric(df[sort_col], errors="coerce").fillna(1.0)
     df = df.sort_values("_rank", kind="stable").drop_duplicates(subset=[scan_col], keep="first")
     prot = first_token(df[prot_col].astype(str))
     ev = pd.to_numeric(df[ev_col], errors="coerce").fillna(1.0) if ev_col else pd.Series(1.0, index=df.index)
     out = pd.DataFrame({
-        "ScanNum":   pd.to_numeric(df[scan_col], errors="coerce").fillna(-1).astype(int).values,
-        "Peptide":   clean_peptide_series(df[pep_col]).values,
-        "protein":   prot.values,
-        "is_decoy":  prot.str.startswith(decoy_prefix).astype(int).values,
-        "QValue":    pd.to_numeric(df[q_col],  errors="coerce").fillna(1.0).values,
+        "ScanNum": pd.to_numeric(df[scan_col], errors="coerce").fillna(-1).astype(int).values,
+        "Peptide": clean_peptide_series(df[pep_col]).values,
+        "protein": prot.values,
+        "is_decoy": prot.str.startswith(decoy_prefix).astype(int).values,
+        "QValue": pd.to_numeric(df[q_col],  errors="coerce").fillna(1.0).values,
         "PepQValue": pd.to_numeric(df[pq_col], errors="coerce").fillna(1.0).values,
-        "score":     (-np.log10(ev.clip(lower=1e-300))).values,
+        "score": (-np.log10(ev.clip(lower=1e-300))).values,
     })
     return out, out
 
@@ -322,9 +328,9 @@ def load_xpectra(xpectra_dir, sample, decoy_prefix):
     df = read_table(path)
     pep_col  = get_col(df, ["Peptide", "peptide"], "peptide")
     prot_col = get_col(df, ["Protein", "protein"], "protein")
-    q_col    = get_col(df, ["xpec_q", "q_value", "QValue"], "xpec_q")
-    pq_col   = get_col(df, ["xpec_pepq", "pep_q_value", "PepQValue"], "xpec_pepq")
-    sc_col   = next((c for c in ["xpec_score", "score"] if c in df.columns), None)
+    q_col = get_col(df, ["xpec_q", "q_value", "QValue"], "xpec_q")
+    pq_col = get_col(df, ["xpec_pepq", "pep_q_value", "PepQValue"], "xpec_pepq")
+    sc_col = next((c for c in ["xpec_score", "score"] if c in df.columns), None)
     prot = first_token(df[prot_col])
     dec_col = next((c for c in ["is_decoy", "IsDecoy"] if c in df.columns), None)
     is_decoy = (pd.to_numeric(df[dec_col], errors="coerce").fillna(0).astype(int)
@@ -377,12 +383,12 @@ def _read_split_pair(tgt_path, dec_path, *, pep_candidates, prot_candidates,
                 else:
                     scan_nums = np.full(len(d), -1, dtype=int)
             frames.append(pd.DataFrame({
-                "ScanNum":   scan_nums,
-                "Peptide":   clean_peptide_series(d[pep_col]).values,
-                "protein":   prot.values,
-                "is_decoy":  dflag,
-                out_q_name:  pd.to_numeric(d[q_col], errors="coerce").fillna(1.0).values,
-                "score":     (pd.to_numeric(d[sc_col], errors="coerce").fillna(0.0).values
+                "ScanNum": scan_nums,
+                "Peptide": clean_peptide_series(d[pep_col]).values,
+                "protein": prot.values,
+                "is_decoy": dflag,
+                out_q_name: pd.to_numeric(d[q_col], errors="coerce").fillna(1.0).values,
+                "score": (pd.to_numeric(d[sc_col], errors="coerce").fillna(0.0).values
                               if sc_col else np.zeros(len(d))),
             }))
         except Exception as e:
@@ -435,8 +441,8 @@ def _load_ms2rescore_mokapot(base, sample, decoy_prefix, psm_path):
         df = df[pd.to_numeric(df["rank"], errors="coerce") == 1]
     pep_col  = get_col(df, ["peptidoform", "peptide", "Peptide"], "peptidoform")
     prot_col = get_col(df, ["protein_list", "proteinIds", "protein"], "protein_list")
-    q_col    = get_col(df, ["qvalue", "q-value", "q_value"], "qvalue")
-    sc_col   = next((c for c in ["score", "mokapot score"] if c in df.columns), None)
+    q_col = get_col(df, ["qvalue", "q-value", "q_value"], "qvalue")
+    sc_col = next((c for c in ["score", "mokapot score"] if c in df.columns), None)
     raw_prot = (df[prot_col]
                 .astype(str)
                 .str.strip("[]")
@@ -453,12 +459,12 @@ def _load_ms2rescore_mokapot(base, sample, decoy_prefix, psm_path):
         sid_col = next((c for c in ["spectrum_id", "spectrumID", "SpectrumID"] if c in df.columns), None)
         ms2r_scan = extract_scan_nums(df[sid_col]) if sid_col else pd.Series(dtype=float)
     psm = pd.DataFrame({
-        "ScanNum":  ms2r_scan,
-        "Peptide":  clean_peptide_series(df[pep_col]).values,
-        "protein":  prot.values,
+        "ScanNum": ms2r_scan,
+        "Peptide": clean_peptide_series(df[pep_col]).values,
+        "protein": prot.values,
         "is_decoy": is_decoy.values,
-        "qvalue":   pd.to_numeric(df[q_col], errors="coerce").fillna(1.0).values,
-        "score":    score,
+        "qvalue": pd.to_numeric(df[q_col], errors="coerce").fillna(1.0).values,
+        "score": score,
     })
     pep = compute_pep_qvalue(psm, score_col="score", peptide_col="Peptide")
     return psm, pep
@@ -513,15 +519,15 @@ def compute_gain_loss(frames, thresholds):
             common_prots = len(tool_prots & base_prots)
             rows.append({
                 "Tool": tk, "FDR": thr,
-                "gained_psms":      gained_psms,
-                "lost_psms":        lost_psms,
-                "common_psms":      common_psms,
-                "gained_peptides":  gained_peps,
-                "lost_peptides":    lost_peps,
-                "common_peptides":  common_peps,
-                "gained_proteins":  gained_prots,
-                "lost_proteins":    lost_prots,
-                "common_proteins":  common_prots,
+                "gained_psms": gained_psms,
+                "lost_psms": lost_psms,
+                "common_psms": common_psms,
+                "gained_peptides": gained_peps,
+                "lost_peptides": lost_peps,
+                "common_peptides": common_peps,
+                "gained_proteins": gained_prots,
+                "lost_proteins": lost_prots,
+                "common_proteins": common_prots,
             })
     return rows
 
@@ -695,11 +701,11 @@ def plot_gain_loss_diverging(overlap_df, out_dir):
         print("  [WARN] No overlap data -- skipping gain/loss diverging plot.")
         return
 
-    LOSS_CLR   = "#E66101"
+    LOSS_CLR = "#E66101"
     COMMON_CLR = "#C4C4C4"
-    GAIN_CLR   = "#7244C0"
-    BL_CLR     = "#252525"
-    HATCH_PEP  = "/"
+    GAIN_CLR = "#7244C0"
+    BL_CLR = "#252525"
+    HATCH_PEP = "/"
     HATCH_PROT = "\\"
     plt.rcParams['hatch.linewidth'] = 0.4
 
@@ -709,17 +715,17 @@ def plot_gain_loss_diverging(overlap_df, out_dir):
     if n_tools == 0:
         return
 
-    bar_h     = 0.20
-    gap       = 0.05
+    bar_h  = 0.20
+    gap = 0.05
     group_sep = 0.28
-    stride    = bar_h * 3 + gap * 2 + group_sep
+    stride = bar_h * 3 + gap * 2 + group_sep
 
     y_centres = np.arange(n_tools) * stride
     y_centres = y_centres[::-1]
-    offset    = bar_h + gap
-    y_psm     = y_centres + offset
-    y_pep     = y_centres
-    y_prot    = y_centres - offset
+    offset = bar_h + gap
+    y_psm = y_centres + offset
+    y_pep = y_centres
+    y_prot = y_centres - offset
 
     n_panels = len(fdrs)
     fig_h    = max(5.5, n_tools * 1.5 + 2.5)
@@ -728,11 +734,11 @@ def plot_gain_loss_diverging(overlap_df, out_dir):
                  fontsize=12, fontweight="bold", y=1.02)
 
     TOOL_LABELS = {
-        "perc":  "MS-GF+\n+ Percolator",
-        "ms2r":  "MS-GF+\n+ MS2Rescore",
-        "sparx": "MSGFLEX\n- SPARX",
-        "msb":   "MS-GF+\n+ MSBooster",
-        "xpec":  "SPARX\n+ XPECTRA",
+        "perc": "MS-GF+\n+ Percolator",
+        "ms2r": "MS-GF+\n+ MS2Rescore",
+        "sparx":"MSGFLEX\n- SPARX",
+        "msb": "MS-GF+\n+ MSBooster",
+        "xpec": "SPARX\n+ XPECTRA",
     }
 
     for col, thr in enumerate(fdrs):
@@ -766,8 +772,8 @@ def plot_gain_loss_diverging(overlap_df, out_dir):
             bl_psm_vals.append(int(r.lost_psms) + int(r.common_psms))
             bl_pep_vals.append(int(r.lost_peptides) + int(r.common_peptides))
             bl_prot_vals.append(int(r.lost_proteins) + int(r.common_proteins))
-        bl_psm  = int(np.median(bl_psm_vals))  if bl_psm_vals  else 0
-        bl_pep  = int(np.median(bl_pep_vals))  if bl_pep_vals  else 0
+        bl_psm = int(np.median(bl_psm_vals))  if bl_psm_vals  else 0
+        bl_pep = int(np.median(bl_pep_vals))  if bl_pep_vals  else 0
         bl_prot = int(np.median(bl_prot_vals)) if bl_prot_vals else 0
 
         # Alternating background bands
@@ -784,9 +790,9 @@ def plot_gain_loss_diverging(overlap_df, out_dir):
             r = row.iloc[0]
 
             # PSM row (solid)
-            lp   = int(r.lost_psms)
-            cp   = int(r.common_psms)
-            gp   = int(r.gained_psms)
+            lp = int(r.lost_psms)
+            cp = int(r.common_psms)
+            gp = int(r.gained_psms)
             ax.barh(y_psm[i], lp, height=bar_h, left=0,      color=LOSS_CLR,   zorder=3)
             ax.barh(y_psm[i], cp, height=bar_h, left=lp,     color=COMMON_CLR, zorder=3)
             ax.barh(y_psm[i], gp, height=bar_h, left=lp+cp,  color=GAIN_CLR,   zorder=3)
