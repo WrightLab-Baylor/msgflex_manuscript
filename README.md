@@ -78,10 +78,37 @@ options:
                         Directory for output .pepXML files. (default: None)
   --mzml-dir MZML_DIR   Directory containing .mzML files for RT (defaults to --input-dir). (default: None)
   --decoy-prefix PREFIX
-                        Decoy protein prefix used by MS-GF+ -tda 1 (e.g. rev_, DECOY_, REV_, XXX_). Default: rev_ (default: rev_)
+                        Decoy protein prefix used by MS-GF+ -tda 1 (e.g. rev_, DECOY_, REV_, XXX_). Default: rev_ (default: XXX_)
   -t THREADS, --threads THREADS
                         Number of parallel workers (default: 4). (default: 4)
 ```
+
+`benchmark_psm_gains.py` - This python script used to compare the PSM/Peptide/Protein level gains across different rescoring models with XPECTRA
+
+```
+usage: benchmark_psm_gains_2.py [-h] [-p PROJECT_PATH] [--msgf MSGF] [--perc-dir PERC_DIR] [--ms2r-dir MS2R_DIR] [--ms2r-format {auto,mokapot,percolator}] [--sparx-dir SPARX_DIR]
+                                [--msb-dir MSB_DIR] [--xpectra XPECTRA] [--out OUT] [--decoy-prefix DECOY_PREFIX] [--fdr-thresholds FDR_THRESHOLDS [FDR_THRESHOLDS ...]]
+
+options:
+  -h, --help            show this help message and exit
+  -p PROJECT_PATH, --project-path PROJECT_PATH
+                        Project dir containing the standard subfolders: results/ (msgf), percolator/, ms2rescore/, SICdir/ (sparx), msbooster/, xpectra/rescored/. Individual
+                        flags override.
+  --msgf MSGF           MS-GF+ TSV file or directory
+  --perc-dir PERC_DIR
+  --ms2r-dir MS2R_DIR
+  --ms2r-format {auto,mokapot,percolator}
+                        MS2Rescore output format. 'auto' (default) detects which files are present; 'mokapot' expects {sample}.ms2rescore.psms.tsv; 'percolator' expects split
+                        {sample}_psms.txt / _decoy_psms.txt.
+  --sparx-dir SPARX_DIR
+  --msb-dir MSB_DIR
+  --xpectra XPECTRA
+  --out OUT             Output directory for plots and summary CSV
+  --decoy-prefix DECOY_PREFIX
+  --fdr-thresholds FDR_THRESHOLDS [FDR_THRESHOLDS ...]
+```
+
+
 
 
 
