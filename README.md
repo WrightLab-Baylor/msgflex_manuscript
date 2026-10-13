@@ -108,6 +108,12 @@ options:
   --fdr-thresholds FDR_THRESHOLDS [FDR_THRESHOLDS ...]
 ```
 
+`xpectra_main_plot.py` - This python script was used to generate the __Figure 2__ of the manuscript with the data obtained for each dataset ran on `benchmark_psm_gains.py`.
+Data used to generate this figure supplied in xpec_comp directory. 
+
+## QUANTIX module data-analysis
+
+
 
 
 
