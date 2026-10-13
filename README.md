@@ -1,7 +1,7 @@
 This repository contains the scripts used in analyzing the data associated with
 manuscript "MSGFLEX: An optimized end-to-end pipeline for metaproteomics analysis built on MS-GF+ with a dedicated rescoring model, XPECTRA"
 
-# Description each script
+# Description/Usage of each script
 
 `fasta_splitter.py` - This Python script is useful for splitting large protein databases into smaller bins for `sparx-binning` pipeline
 
@@ -24,3 +24,18 @@ options:
   -o OUTPUT, --output OUTPUT
                         Output directory (default: <input_basename>_split)
 ```
+
+## SPARX module data-analysis
+
+`numa_optimization_plot.py` - Python script used to visualize MS-GF+ runtime reduction from NUMA-aware task/thread optimization.
+
+Statistical tests used:
+ - Wilcoxon signed-rank
+ - paired t-test
+
+`validate_split_vs_unified.py` - Python script used to validate the bias produced by splitting/binning of large metaproteomic databases.
+
+
+
+
+
