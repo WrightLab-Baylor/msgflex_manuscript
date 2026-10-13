@@ -28,6 +28,7 @@ options:
 ## SPARX module data-analysis
 
 `numa_optimization_plot.py` - Python script used to visualize MS-GF+ runtime reduction from NUMA-aware task/thread optimization.
+Associated figure: Supplementary Figure1 (__SFig1__). 
 
 Statistical tests used:
  - Wilcoxon signed-rank
@@ -37,7 +38,7 @@ Statistical tests used:
 
 ## XPECTRA module data-analysis
 
-MSBooster and Percolator needs '.pin' & '.pepXML' format files for rescoring. So we used _in-house_ written scripts to convert MS_GF+ resulted '.mzid' files to respetive formats. 
+MSBooster and Percolator needs '.pin' & '.pepXML' format files for rescoring. So we used _in-house_ written scripts to convert MS_GF+ resulted '.mzid' files to respective formats. 
 
 `mzid2pin.py` - Python script used to convert '.mzid' files directly from directory to '.pin' format using '.mzML' to retrieve retention time information.
 
@@ -83,20 +84,22 @@ options:
                         Number of parallel workers (default: 4). (default: 4)
 ```
 
-`benchmark_psm_gains.py` - This python script used to compare the PSM/Peptide/Protein level gains across different rescoring models with XPECTRA
+`benchmark_psm_gains.py` - This python script used to compare the PSM/Peptide/Protein level gains across different rescoring models with XPECTRA.
+
+Associated Figure: __Figure 3__.
 
 __script usage__:
 
 ```
-usage: benchmark_psm_gains_2.py [-h] [-p PROJECT_PATH] [--msgf MSGF] [--perc-dir PERC_DIR] [--ms2r-dir MS2R_DIR] [--ms2r-format {auto,mokapot,percolator}] [--sparx-dir SPARX_DIR]
+usage: benchmark_psm_gains.py [-h] [-p PROJECT_PATH] [--msgf MSGF] [--perc-dir PERC_DIR] [--ms2r-dir MS2R_DIR] [--ms2r-format {auto,mokapot,percolator}] [--sparx-dir SPARX_DIR]
                                 [--msb-dir MSB_DIR] [--xpectra XPECTRA] [--out OUT] [--decoy-prefix DECOY_PREFIX] [--fdr-thresholds FDR_THRESHOLDS [FDR_THRESHOLDS ...]]
 
 options:
-  -h, --help            show this help message and exit
+  -h, --help  show this help message and exit
   -p PROJECT_PATH, --project-path PROJECT_PATH
                         Project dir containing the standard subfolders: results/ (msgf), percolator/, ms2rescore/, SICdir/ (sparx), msbooster/, xpectra/rescored/. Individual
                         flags override.
-  --msgf MSGF           MS-GF+ TSV file or directory
+  --msgf MSGF  MS-GF+ TSV file or directory
   --perc-dir PERC_DIR
   --ms2r-dir MS2R_DIR
   --ms2r-format {auto,mokapot,percolator}
@@ -105,7 +108,7 @@ options:
   --sparx-dir SPARX_DIR
   --msb-dir MSB_DIR
   --xpectra XPECTRA
-  --out OUT             Output directory for plots and summary CSV
+  --out OUT   Output directory for plots and summary CSV
   --decoy-prefix DECOY_PREFIX
   --fdr-thresholds FDR_THRESHOLDS [FDR_THRESHOLDS ...]
 ```
@@ -115,9 +118,11 @@ Data used to generate this figure supplied in xpec_comp directory.
 
 ## QUANTIX module data-analysis
 
+`quantix_validation.py` - This python script is associated with __Figure 6__ of the manuscript.
 
+`rollup_comparison.py' - The python script associated with Supplementary Figure7 (__SFig7__) of the manuscript, used to compare rollup methods deployed/developed in this manuscript. 
 
-
+The data used with scripts are supplied as rollup_matrix directory. 
 
 
 
