@@ -331,7 +331,7 @@ def main():
     parser.add_argument("--decoy-prefix", default="rev_",
                         metavar="PREFIX",
                         help="Decoy protein prefix used by MS-GF+ -tda 1 "
-                             "(e.g. rev_, DECOY_, REV_, XXX_). Default: rev_")
+                             "(e.g. rev_, DECOY_, REV_, XXX_). Default: XXX_")
     parser.add_argument("-t", "--threads", type=int, default=4,
                         help="Number of parallel workers (default: 4).")
     args = parser.parse_args()
