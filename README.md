@@ -5,7 +5,7 @@ manuscript "MSGFLEX: An optimized end-to-end pipeline for metaproteomics analysi
 
 `fasta_splitter.py` - This Python script is useful for splitting large protein databases into smaller bins for `sparx-binning` pipeline
 
-usage:
+__script usage__:
 
 ```
 usage: fasta_splitter.py [-h] -i INPUT [-n NUM_PARTS] [-seq SEQ_PER_PART] [-r] [-o OUTPUT]
@@ -41,7 +41,7 @@ MSBooster and Percolator needs '.pin' & '.pepXML' format files for rescoring. So
 
 `mzid2pin.py` - Python script used to convert '.mzid' files directly from directory to '.pin' format using '.mzML' to retrieve retention time information.
 
-script usage:
+__script usage__:
 
 ```
 usage: mzid2pin.py [-h] -i INPUT_DIR -o OUTPUT_DIR [--mzml-dir MZML_DIR] [--decoy-prefix PREFIX] [-t THREADS]
@@ -63,7 +63,7 @@ options:
 
 `mzid2pepxml.py` - Python script used to convert '.mzid' files directly from directory to '.pepXML' format using '.mzML' to retrieve retention time information.
 
-script usage:
+__script usage__:
 
 ```
 usage: mzid2pepxml.py [-h] -i INPUT_DIR -o OUTPUT_DIR [--mzml-dir MZML_DIR] [--decoy-prefix PREFIX] [-t THREADS]
@@ -84,6 +84,8 @@ options:
 ```
 
 `benchmark_psm_gains.py` - This python script used to compare the PSM/Peptide/Protein level gains across different rescoring models with XPECTRA
+
+__script usage__:
 
 ```
 usage: benchmark_psm_gains_2.py [-h] [-p PROJECT_PATH] [--msgf MSGF] [--perc-dir PERC_DIR] [--ms2r-dir MS2R_DIR] [--ms2r-format {auto,mokapot,percolator}] [--sparx-dir SPARX_DIR]
