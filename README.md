@@ -1,5 +1,5 @@
 This repository contains the scripts used in analyzing the data associated with
-manuscript "MSGFLEX: An optimized end-to-end pipeline for metaproteomics analysis built on MS-GF+ with a dedicated rescoring model, XPECTRA"
+manuscript "__MSGFLEX: An optimized end-to-end pipeline for metaproteomics analysis built on MS-GF+ with a dedicated rescoring model, XPECTRA__"
 
 # Description/Usage of each script
 
