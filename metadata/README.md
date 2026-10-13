@@ -19,7 +19,7 @@ Datasets without an MSV accession are PRIDE-sourced and are identified here by t
 |---|---|---|
 | MSGFLEX | 1.1.0 | Pipeline developed by the authors; includes xpectra. https://github.com/WrightLab-Baylor/msgflex |
 | MS-GF+ | 2024.03.26 | Database search engine used within MSGFLEX |
-| xpectra | part of MSGFLEX 1.1.0 | Rescoring of PSMs |
+| XPECTRA | part of MSGFLEX 1.1.0 | Rescoring of PSMs |
 
 
 
