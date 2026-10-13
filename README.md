@@ -42,6 +42,7 @@ MSBooster and Percolator needs '.pin' & '.pepXML' format files for rescoring. So
 `mzid2pin.py` - Python script used to convert '.mzid' files directly from directory to '.pin' format using '.mzML' to retrieve retention time information.
 
 script usage:
+
 ```
 usage: mzid2pin.py [-h] -i INPUT_DIR -o OUTPUT_DIR [--mzml-dir MZML_DIR] [--decoy-prefix PREFIX] [-t THREADS]
 
@@ -62,6 +63,9 @@ options:
 
 `mzid2pepxml.py` - Python script used to convert '.mzid' files directly from directory to '.pepXML' format using '.mzML' to retrieve retention time information.
 
+script usage:
+
+```
 usage: mzid2pepxml.py [-h] -i INPUT_DIR -o OUTPUT_DIR [--mzml-dir MZML_DIR] [--decoy-prefix PREFIX] [-t THREADS]
 
 Convert a directory of MS-GF+ .mzid files to MSBooster-compatible pepXML files.
