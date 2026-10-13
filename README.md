@@ -120,7 +120,7 @@ Data used to generate this figure supplied in xpec_comp directory.
 
 `quantix_validation.py` - This python script is associated with __Figure 6__ of the manuscript.
 
-`rollup_comparison.py' - The python script associated with Supplementary Figure7 (__SFig7__) of the manuscript, used to compare rollup methods deployed/developed in this manuscript. 
+`rollup_comparison.py` - The python script associated with Supplementary Figure7 (__SFig7__) of the manuscript, used to compare rollup methods deployed/developed in this manuscript. 
 
 The data used with scripts are supplied as rollup_matrix directory. 
 
